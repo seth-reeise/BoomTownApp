@@ -1,10 +1,10 @@
 # BoomTownApp
-Coding assessment for BoomTown written in C#/.net 6.0
+Coding assessment for BoomTown written in C#/.net 6.0 console application
 
-## Build:
+### Build:
 ### `dotnet build`
 
-## Run: 
+### Run: 
 ### `dotnet run`
 
 
