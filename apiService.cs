@@ -1,7 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
 using BoomTownApp.Models;
-using Repository = BoomTownApp.Models.Repository;
 
 namespace BoomTownApp;
 
@@ -17,14 +16,14 @@ public class ApiService
         client.DefaultRequestHeaders.Add("User-Agent", "seth-reeise");
     }
     
-    public async Task<Repository> GetTopLevelBoomTownRepo()
+    public async Task<OrganizationDTO> GetTopLevelBoomTownOrg()
     {
         var response = await client.GetAsync(baseUrl);
 
         if (response.IsSuccessStatusCode)
         {
             var responseBody = await response.Content.ReadAsStreamAsync();
-            var repository = await JsonSerializer.DeserializeAsync<Repository>(responseBody);
+            var repository = await JsonSerializer.DeserializeAsync<OrganizationDTO>(responseBody);
             return repository;    
         }
         
@@ -33,14 +32,14 @@ public class ApiService
         return null;
     }
 
-    public async Task<List<Repository>> GetReposData()
+    public async Task<List<ReposDTO>> GetReposData()
     {
         var response = await client.GetAsync(baseUrl + "/repos");
         
         if (response.IsSuccessStatusCode)
         {
             var responseBody = await response.Content.ReadAsStreamAsync();
-            var repositories = await JsonSerializer.DeserializeAsync<List<Repository>>(responseBody);
+            var repositories = await JsonSerializer.DeserializeAsync<List<ReposDTO>>(responseBody);
             return repositories;
         }
         
@@ -49,14 +48,14 @@ public class ApiService
         return null;
     }
     
-    public async Task<List<EventsRepoDTO>> GetEventsData()
+    public async Task<List<EventsDTO>> GetEventsData()
     {
         var response = await client.GetAsync(baseUrl + "/events");
         
         if (response.IsSuccessStatusCode)
         {
             var responseBody = await response.Content.ReadAsStreamAsync();
-            var events = await JsonSerializer.DeserializeAsync<List<EventsRepoDTO>>(responseBody);
+            var events = await JsonSerializer.DeserializeAsync<List<EventsDTO>>(responseBody);
             
             // get link header to retrieve all events
             var linkHeader = response.Headers.GetValues("link").First();
@@ -75,7 +74,7 @@ public class ApiService
                 if (response.IsSuccessStatusCode)
                 {
                     responseBody = await response.Content.ReadAsStreamAsync();
-                    var nextEvents = await JsonSerializer.DeserializeAsync<List<EventsRepoDTO>>(responseBody);
+                    var nextEvents = await JsonSerializer.DeserializeAsync<List<EventsDTO>>(responseBody);
                     if (nextEvents == null) continue;
                     events = events?.Concat(nextEvents).ToList();
 
@@ -97,14 +96,14 @@ public class ApiService
         return null;
     }
     
-    public async Task<List<Repository>> GetHooksData()
+    public async Task<List<HooksDTO>> GetHooksData()
     {
         var response = await client.GetAsync(baseUrl + "/hooks");
 
         if (response.IsSuccessStatusCode)
         {
             var responseBody = await response.Content.ReadAsStreamAsync();
-            var hooks = await JsonSerializer.DeserializeAsync<List<Repository>>(responseBody);
+            var hooks = await JsonSerializer.DeserializeAsync<List<HooksDTO>>(responseBody);
             return hooks;
         }
 
@@ -112,14 +111,14 @@ public class ApiService
         return null;
     }
     
-    public async Task<List<Repository>> GetIssuesData()
+    public async Task<List<IssuesDTO>> GetIssuesData()
     {
         var response = await client.GetAsync(baseUrl + "/issues");
 
         if (response.IsSuccessStatusCode)
         {
             var responseBody = await response.Content.ReadAsStreamAsync();
-            var issues = await JsonSerializer.DeserializeAsync<List<Repository>>(responseBody);
+            var issues = await JsonSerializer.DeserializeAsync<List<IssuesDTO>>(responseBody);
             return issues;
         }
 
@@ -127,14 +126,14 @@ public class ApiService
         return null;
     }
     
-    public async Task<List<MembersRepoDTO>> GetMembersData()
+    public async Task<List<MembersDTO>> GetMembersData()
     {
         var response = await client.GetAsync(baseUrl + "/members");
 
         if (response.IsSuccessStatusCode)
         {
             var responseBody = await response.Content.ReadAsStreamAsync();
-            var members = await JsonSerializer.DeserializeAsync<List<MembersRepoDTO>>(responseBody);
+            var members = await JsonSerializer.DeserializeAsync<List<MembersDTO>>(responseBody);
             return members;
         }
         
@@ -142,14 +141,14 @@ public class ApiService
         return null;
     }
     
-    public async Task<List<MembersRepoDTO>> GetPublicMembersData()
+    public async Task<List<MembersDTO>> GetPublicMembersData()
     {
         var response = await client.GetAsync(baseUrl + "/members");
 
         if (response.IsSuccessStatusCode)
         {
             var responseBody = await response.Content.ReadAsStreamAsync();
-            var members = await JsonSerializer.DeserializeAsync<List<MembersRepoDTO>>(responseBody);
+            var members = await JsonSerializer.DeserializeAsync<List<MembersDTO>>(responseBody);
             return members;
         }
 

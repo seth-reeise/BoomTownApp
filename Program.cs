@@ -1,9 +1,9 @@
 ﻿using BoomTownApp;
 using BoomTownApp.Models;
 
-ApiService apiService = new ApiService();
+var apiService = new ApiService();
 
-var topLevelRepo = await apiService.GetTopLevelBoomTownRepo();
+var topLevelOrg = await apiService.GetTopLevelBoomTownOrg();
 
 Console.WriteLine("Output Data:");
 
@@ -19,7 +19,7 @@ await GetMembers();
 
 await GetPublicMembers();
 
-await performVerification(topLevelRepo);
+await performVerification(topLevelOrg);
 
 async Task GetRepos()
 {
@@ -58,7 +58,7 @@ async Task GetHooks()
     {
         foreach (var hook in hooks)
         {
-            Console.WriteLine("Name: " + hook.Name + ", id: " + hook.Name);
+            Console.WriteLine("Name: " + hook.Name + ", id: " + hook.Id);
         }
     }
 }
@@ -72,7 +72,7 @@ async Task GetIssues()
     {
         foreach (var issue in issues)
         {
-            Console.WriteLine("Name: " + issue.Name + ", id: " + issue.Name);
+            Console.WriteLine("Name: " + issue.Title + ", id: " + issue.Id);
         }
     }
 }
@@ -105,10 +105,10 @@ async Task GetPublicMembers()
     }
 }
 
-async Task performVerification(Repository repository)
+async Task performVerification(OrganizationDTO organization)
 {
     Console.WriteLine("\n" + "Perform verifications:" + "\n");
-    if (repository?.UpdatedAt > repository?.CreatedAt)
+    if (organization?.UpdatedAt > organization?.CreatedAt)
     {
         Console.WriteLine("Updated date is later than created date.");
     }
@@ -116,12 +116,11 @@ async Task performVerification(Repository repository)
     {
         Console.WriteLine("Error! Updated date is before created date!");
     }
-    Console.WriteLine();
-    
+
     var repos = await apiService.GetReposData();
-    Console.WriteLine("Top level repo count: " + repository?.PublicRepos);
+    Console.WriteLine("\n" + "Top level repo count: " + organization?.PublicRepos);
     Console.WriteLine("Repo count in \"/repos\": " + repos?.Count);
-    if (repository?.PublicRepos == repos?.Count)
+    if (organization?.PublicRepos == repos?.Count)
     {
         Console.WriteLine("Repos count is correct.");
     }

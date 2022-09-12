@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace BoomTownApp.Models;
 
-public class EventsRepoDTO
+public class EventsDTO
 {
     [JsonPropertyName("type")]
     public string Type { get; set; }

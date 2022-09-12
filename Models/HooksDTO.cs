@@ -2,11 +2,11 @@ using System.Text.Json.Serialization;
 
 namespace BoomTownApp.Models;
 
-public class MembersRepoDTO
+public class HooksDTO
 {
-    [JsonPropertyName("login")]
-    public string Login { get; set; }
-    
     [JsonPropertyName("id")]
     public int Id { get; set; }
+    
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 }
